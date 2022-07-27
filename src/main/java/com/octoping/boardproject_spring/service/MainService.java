@@ -12,15 +12,15 @@ public class MainService {
 
     public boolean login(String id, String password) {
         Optional<Member> member = memberRepository.findById(id);
+/*      TODO: 아이디가 존재하지 않을 때, 비밀번호만 다를 때 분기 쳐서 다른 메시지 출력하도록 수정
         if(member.isEmpty()) { // 아이디가 없을 경우
             return false;
         }
 
         if(member.filter(m -> password.equals(m.getPassword())).isEmpty()) { // 비밀번호가 틀렸을 경우
             return false;
-        }
-
-        return true;
+        } */
+        return member.filter(m -> password.equals(m.getPassword())).isPresent();
     }
 
     public boolean joinNewMember(String id, String password) {
