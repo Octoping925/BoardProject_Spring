@@ -10,4 +10,5 @@ public interface MemberRepository {
     Optional<Member> findById(String id);
     List<Member> findAll();
     boolean isUserInfoValid(String id, String password);
+    void clearStore();
 }

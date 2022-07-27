@@ -35,6 +35,7 @@ public class MemoryMemberRepository implements MemberRepository {
         return new ArrayList<>(store.values());
     }
 
+    @Override
     public void clearStore() {
         store.clear();
     }
@@ -44,4 +45,6 @@ public class MemoryMemberRepository implements MemberRepository {
         Optional<Member> member = this.findById(id);
         return member.filter(m -> password.equals(m.getPassword())).isPresent();
     }
+
+
 }
