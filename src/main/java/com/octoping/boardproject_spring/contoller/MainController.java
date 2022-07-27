@@ -21,6 +21,6 @@ public class MainController {
     @GetMapping("/")
     public String main() {
         // TODO: 세션 존재할 시 자동 로그인 기능 추가
-        return "members/login";
+        return "redirect:/members/login";
     }
 }
