@@ -7,13 +7,14 @@
       <thead>
       <tr>
         <th>#</th>
-        <th>이름</th>
+        <th>영화</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="member : ${members}">
-        <td th:text="${member.id}"></td>
-        <td th:text="${member.name}"></td>
+      <tr th:each="movie : ${movies}">
+        <td th:text="${movie.movieId}"></td>
+        <td th:text="${movie.name}"></td>
+        <td th:text="${movie.directorName}"></td>
       </tr>
       </tbody>
     </table>

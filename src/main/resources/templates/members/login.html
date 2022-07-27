@@ -7,7 +7,7 @@
 <body>
 <div>
   <h1>로그인</h1>
-  <form action="/login" method="post">
+  <form action="/members/login" method="post">
     <label for="id"></label>
     <input id="id" name="id" placeholder="아이디"><br>
 
@@ -16,9 +16,9 @@
     <button id="loginBtn" type="submit">로그인</button>
   </form>
 
-  <button id="signupBtn" onclick="location.href='/signUp'">회원가입</button>
+  <button id="signupBtn" onclick="location.href='/members/signUp'">회원가입</button>
 
-  <br><div th:text="${message}" style="color: red"/>
+  <br><div th:text="${message}" style="color: red">
 </div>
 </body>
 </html>

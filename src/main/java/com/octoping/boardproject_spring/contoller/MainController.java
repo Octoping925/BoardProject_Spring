@@ -11,37 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
+    private MainService mainService;
 
-    MainService mainService = new MainService();
+    @Autowired
+    public MainController(MainService mainService) {
+        this.mainService = mainService;
+    }
 
     @GetMapping("/")
-    public String login() {
+    public String main() {
         // TODO: 세션 존재할 시 자동 로그인 기능 추가
-        return "login";
+        return "members/login";
     }
-
-    @PostMapping("/login")
-    public String getLogin(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
-        boolean loginResult = mainService.login(id, password);
-        System.out.println(id + " " + password + " " + loginResult);
-
-        if(!loginResult) {
-            model.addAttribute("message", "로그인에 실패하였습니다"); // 로그인 상태 메시지
-            return "login";
-        }
-
-        return "index";
-    }
-
-    @GetMapping("/signUp")
-    public String signUp() {
-        return "signUp";
-    }
-
-    @PostMapping("/signUp")
-    public String joinNewMember(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
-        boolean result = mainService.joinNewMember(id, password);
-        return "login";
-    }
-
 }
