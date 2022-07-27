@@ -39,7 +39,13 @@ public class MemberController {
 
     @PostMapping("/members/signUp")
     public String joinNewMember(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
-        boolean result = memberService.joinNewMember(id, password);
+        boolean signupResult = memberService.joinNewMember(id, password);
+        System.out.println(id + " " + password + signupResult);
+
+        if(!signupResult) { // TODO: 새로고침 않고 alert로 실패 메시지 띄우도록 수정
+            model.addAttribute("message", "회원가입에 실패하였습니다"); // TODO: 회원가입 실패 이유 상세하게 표시하도록 수정
+            return "/members/signUp";
+        }
         return "/members/login";
     }
 }
