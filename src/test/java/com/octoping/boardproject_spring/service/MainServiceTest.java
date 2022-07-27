@@ -14,10 +14,12 @@ public class MainServiceTest {
     public void isMemberValidTest() {
         memberRepository.save(new Member("myc", "123"));
         boolean resultTrue = memberRepository.isUserInfoValid("myc", "123");
-        boolean resultFalse = memberRepository.isUserInfoValid("testFail!", "");
+        boolean resultFalse = memberRepository.isUserInfoValid("myc", "NotCorrectPassword");
+        boolean resultFalse2 = memberRepository.isUserInfoValid("testFail!", "");
 
         Assertions.assertTrue(resultTrue);
         Assertions.assertFalse(resultFalse);
+        Assertions.assertFalse(resultFalse2);
     }
 
 
