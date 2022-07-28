@@ -4,6 +4,6 @@
 <div th:text="${movie.name}"></div>
 <div th:text="${movie.directorName}"></div>
 
-<video controls="controls" th:src="${videoUrl}" width="400" autoplay="autoplay"></video>
+<video controls="controls" th:src="${movie.filePath}" width="400" autoplay="autoplay"></video>
 </body>
 </html>
