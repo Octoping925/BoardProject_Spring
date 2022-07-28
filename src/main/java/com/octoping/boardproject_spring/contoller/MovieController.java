@@ -2,12 +2,14 @@ package com.octoping.boardproject_spring.contoller;
 
 import com.octoping.boardproject_spring.domain.Movie;
 import com.octoping.boardproject_spring.service.MovieService;
+import com.octoping.boardproject_spring.exception.NoMovieFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,16 +36,18 @@ public class MovieController {
         return "/movie/movieList";
     }
 
-    @GetMapping("/movie/watch")
-    public ModelAndView watch(@RequestParam String movieId){
+    @GetMapping("/movie/watch/{movieId}")
+    public ModelAndView watchMovie(@PathVariable String movieId) {
         ModelAndView mav = new ModelAndView();
         Optional<Movie> movie = movieService.getMovie(Long.parseLong(movieId));
-
-        if(movie.isPresent()) {
+        
+        try {
+            movie.orElseThrow(() -> new NoMovieFoundException("No Movie Found with id: " + movieId));
             mav.setViewName("/movie/watch");
             mav.addObject("movie", movie.get());
         }
-        else {
+        catch(NoMovieFoundException e) {
+            e.printStackTrace();
             mav.setViewName("redirect:/movie/movieList");
         }
 
