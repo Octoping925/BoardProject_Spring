@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface MovieRepository {
     Movie save(Movie movie);
-    Optional<Movie> findBymovieId(Long movieId);
+    Optional<Movie> findBymovieId(long movieId);
     Optional<Movie> findByName(String name);
     List<Movie> findAll();
     void clearStore();

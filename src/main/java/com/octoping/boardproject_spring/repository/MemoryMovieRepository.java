@@ -21,8 +21,8 @@ public class MemoryMovieRepository implements MovieRepository{
     }
 
     @Override
-    public Optional<Movie> findBymovieId(Long movieId) {
-        return Optional.ofNullable(store.get(movieId));
+    public Optional<Movie> findBymovieId(long movieId) {
+        return Optional.ofNullable(store.get(Long.valueOf(movieId)));
     }
 
     @Override
