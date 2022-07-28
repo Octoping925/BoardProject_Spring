@@ -4,7 +4,15 @@ import com.octoping.boardproject_spring.domain.Movie;
 import com.octoping.boardproject_spring.service.MovieService;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.core.io.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +43,7 @@ public class MovieController {
     }
 
     @GetMapping("/movie/watch")
-    public ModelAndView watch(@RequestParam String movieId){
+    public ModelAndView watch(@RequestParam("movieId") String movieId){
         ModelAndView mav = new ModelAndView();
         Optional<Movie> movie = movieService.getMovie(Long.parseLong(movieId));
 
@@ -48,5 +56,22 @@ public class MovieController {
         }
 
         return mav;
+    }
+
+    @GetMapping("/movie/test") // 스트리밍 테스트용
+    public ResponseEntity<Resource> movieTest(Model model) {
+        Movie movie =  movieService.getMovie(1).get();
+        Resource resource = new FileSystemResource(movie.getFilePath());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "ap.mp4");
+        headers.setContentType(MediaType.parseMediaType("video/mp4"));
+
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/movie/getMovieData")
+    public String getMovieData(@RequestParam("movieId") String movieId) {
+
+        return "";
     }
 }
