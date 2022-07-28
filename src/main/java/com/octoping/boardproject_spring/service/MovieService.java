@@ -31,7 +31,8 @@ public class MovieService {
     }
 
     public void setMovieFilePath(long movieId, String filePath) {
-        movieRepository.findBymovieId(movieId).get().setFilePath(filePath);
+        Optional<Movie> movie = movieRepository.findBymovieId(movieId);
+        movie.ifPresent(m -> m.setFilePath(filePath));
     }
 
 
