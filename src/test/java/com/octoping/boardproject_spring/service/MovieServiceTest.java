@@ -25,16 +25,19 @@ public class MovieServiceTest {
         movieService.setMovieFilePath(1, "C:/parasite.mp4");
         movieService.setMovieFilePath(2, "C:/src/main/index.html");
 
-        String filePath1 = movieService.movieRepository.findBymovieId(1).get().getFilePath();
-        String filePath2 = movieService.movieRepository.findBymovieId(2).get().getFilePath();
-        String filePath3 = movieService.movieRepository.findBymovieId(3).get().getFilePath();
+        String filePath1 = movieService.movieRepository.findBymovieId(1).map(Movie::getFilePath).get();
+        String filePath2 = movieService.movieRepository.findBymovieId(2).map(Movie::getFilePath).get();
+        String filePath3 = movieService.movieRepository.findBymovieId(3).map(Movie::getFilePath).get();
+        String filePath4 = movieService.movieRepository.findBymovieId(999).map(Movie::getFilePath).get();
         boolean resultTrue1 = filePath1.equals("C:/parasite.mp4");
         boolean resultFalse = filePath2.equals("C:/handmaiden.mp4");
         boolean resultTrue2 = filePath3 == null;
+        boolean resultTrue3 = filePath4 == null;
 
 
         Assertions.assertTrue(resultTrue1);
         Assertions.assertFalse(resultFalse);
         Assertions.assertTrue(resultTrue2);
+        Assertions.assertTrue(resultTrue3);
     }
 }
