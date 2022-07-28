@@ -6,11 +6,18 @@ import com.octoping.boardproject_spring.repository.MemoryMemberRepository;
 import com.octoping.boardproject_spring.repository.MemoryMovieRepository;
 import com.octoping.boardproject_spring.repository.MovieRepository;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-    MemberRepository memberRepository = new MemoryMemberRepository();
+    MemberRepository memberRepository;
+
+    @Autowired
+    public MemberService(MemoryMemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     public boolean login(String id, String password) {
         Optional<Member> member = memberRepository.findById(id);
