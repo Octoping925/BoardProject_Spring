@@ -4,6 +4,7 @@ import com.octoping.boardproject_spring.domain.Movie;
 import com.octoping.boardproject_spring.repository.MemoryMovieRepository;
 import com.octoping.boardproject_spring.repository.MovieRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,10 @@ public class MovieService {
     public boolean addMovie(String movieName, String directorName) {
         movieRepository.save(new Movie(movieName, directorName));
         return true;
+    }
+
+    public Optional<Movie> getMovie(long movieId) {
+        return movieRepository.findBymovieId(movieId);
     }
 
 

@@ -9,6 +9,7 @@ public class Movie {
     private Long movieId;
     private String name;
     private String directorName;
+    private String filePath;
 
     public Movie(String name, String directorName) {
         this.name = name;

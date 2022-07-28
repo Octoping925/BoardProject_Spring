@@ -25,16 +25,19 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public String getLogin(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
+    public ModelAndView getLogin(@RequestParam("id") String id, @RequestParam("password") String password) {
+        ModelAndView mav = new ModelAndView();
         boolean loginResult = memberService.login(id, password);
         System.out.println(id + " " + password + " " + loginResult);
 
         if(!loginResult) {
-            model.addAttribute("message", "로그인에 실패하였습니다"); // 로그인 상태 메시지
-            return "/members/login";
+            mav.setViewName("/members/login");
+            mav.addObject("message", "로그인에 실패하였습니다");
+            return mav;
         }
 
-        return "redirect:/movie/movieList";
+        mav.setViewName("redirect:/movie/movieList");
+        return mav;
     }
 
     @GetMapping("/members/signUp")

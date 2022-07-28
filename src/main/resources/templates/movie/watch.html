@@ -1,6 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:text="name"></div>
+<div th:text="${movie.name}"></div>
+<div th:text="${movie.directorName}"></div>
+
+<video controls="controls" th:src="${videoUrl}" width="400" autoplay="autoplay"></video>
 </body>
 </html>
