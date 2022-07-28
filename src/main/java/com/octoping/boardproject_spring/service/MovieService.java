@@ -30,5 +30,9 @@ public class MovieService {
         return movieRepository.findBymovieId(movieId);
     }
 
+    public void setMovieFilePath(long movieId, String filePath) {
+        movieRepository.findBymovieId(movieId).get().setFilePath(filePath);
+    }
+
 
 }
