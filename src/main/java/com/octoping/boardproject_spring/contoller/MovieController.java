@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +23,8 @@ public class MovieController {
         movieService.addMovie("그 여름 가장 조용한 바다", "기타노 다케시");
         movieService.addMovie("릴리 슈슈의 모든 것", "이와이 슌지");
         movieService.addMovie("7인의 사무라이", "구로사와 아키라");
+        movieService.setMovieFilePath(1, "C:/ap.mp4");
+        movieService.setMovieFilePath(2, "C:/movie/heat.mp4");
     }
 
     @GetMapping("/movie/movieList")
