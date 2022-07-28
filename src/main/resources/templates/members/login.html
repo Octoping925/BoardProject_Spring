@@ -3,22 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>로그인 페이지</title>
+  <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
 </head>
-<body>
-<div>
-  <h1>로그인</h1>
-  <form action="/members/login" method="post">
-    <label for="id"></label>
-    <input id="id" name="id" placeholder="아이디"><br>
 
-    <label for="password"></label>
-    <input id="password" name="password" placeholder="비밀번호"><br>
-    <button id="loginBtn" type="submit">로그인</button>
+<body>
+<div class="container" style="margin-top: auto;">
+  <form id="loginForm" action="/members/login" method="post" onsubmit="return isInputValid();">
+    <h1 style="padding: 10px">LOGIN</h1>
+    <div style="padding: 5px;">
+      <label for="id" class="visually-hidden">ID</label>
+      <input class="form-control" name="id" id="id" placeholder="아이디">
+    </div>
+    <div style="padding: 5px;">
+      <label for="password" class="visually-hidden">Password</label>
+      <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호">
+    </div>
+    <div style="padding: 5px">
+      <button class="btn btn-primary" id="loginBtn">로그인</button>
+      <button class="btn btn-secondary" type="button" onclick="location.href='/members/signUp'">회원가입</button>
+    </div>
   </form>
 
-  <button id="signupBtn" onclick="location.href='/members/signUp'">회원가입</button>
-
-  <br><div th:text="${message}" style="color: red">
-</div>
+  <div th:text="${message}" style="color: red"></div>
+</div> <!-- container End -->
 </body>
+<script>
+  function isInputValid() {
+    const id = document.getElementById("id");
+    const pw = document.getElementById("password");
+
+    if(id.value.length * pw.value.length === 0) {
+      alert("아이디와 비밀번호를 입력해주세요");
+      return false;
+    }
+    return true;
+  }
+</script>
 </html>

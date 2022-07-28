@@ -1,18 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
 <body>
 <div class="container">
-    <form action="/members/signUp" method="post">
-        <div class="form-group">
-            <label for="id">아이디</label>
-            <input type="text" id="id" name="id" placeholder="아이디를 입력하세요">
+    <form action="/members/signUp" method="post" onsubmit="return isInputValid();">
+        <h1 style="padding: 10px">SIGN UP</h1>
+        <div class="form-group" style="padding: 5px;">
+            <label for="id" class="visually-hidden">아이디</label>
+            <input class="form-control" type="text" id="id" name="id" placeholder="아이디">
         </div>
-        <div class="form-group">
-            <label for="password">비밀번호</label>
-            <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요">
+        <div class="form-group" style="padding: 5px;">
+            <label for="password" class="visually-hidden">비밀번호</label>
+            <input class="form-control" type="password" id="password" name="password" placeholder="비밀번호">
         </div>
-        <button type="submit">등록</button>
+        <div style="padding: 5px;">
+            <button class="btn btn-primary" type="submit">등록</button>
+            <button class="btn btn-secondary" type="button" onclick="location.href='/'">돌아가기</button>
+        </div>
     </form>
 </div> <!-- /container -->
 </body>
+<script>
+    function isInputValid() {
+        const id = document.getElementById("id");
+        const pw = document.getElementById("password");
+
+        if(id.value.length * pw.value.length === 0) {
+            alert("아이디와 비밀번호를 입력해주세요");
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>
