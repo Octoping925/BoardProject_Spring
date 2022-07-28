@@ -9,4 +9,9 @@ public class Movie {
     private Long movieId;
     private String name;
     private String directorName;
+
+    public Movie(String name, String directorName) {
+        this.name = name;
+        this.directorName = directorName;
+    }
 }
