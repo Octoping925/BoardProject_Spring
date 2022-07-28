@@ -1,12 +1,15 @@
 package com.octoping.boardproject_spring.service;
 
 import com.octoping.boardproject_spring.domain.Member;
+import com.octoping.boardproject_spring.repository.MemoryMemberRepository;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class MemberServiceTest {
-    MemberService memberService = new MemberService();
+    MemberService memberService = new MemberService(new MemoryMemberRepository());
+    
     @AfterEach
     public void clearRepository() {
         memberService.memberRepository.clearStore();
