@@ -52,7 +52,7 @@ public class MovieController {
         Optional<Movie> movie = movieService.getMovie(Long.parseLong(movieId));
 
         try {
-            movie.orElseThrow(() -> new NoMovieFoundException("No Movie Found with id: " + movieId));
+            movie.orElseThrow(() -> new NoMovieFoundException(movieId));
             mav.setViewName("/movie/watch");
             mav.addObject("movie", movie.get());
         }
@@ -66,28 +66,34 @@ public class MovieController {
 
     @GetMapping("/movie/download/{movieId}")
     public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, @PathVariable String movieId) throws IOException {
-        Movie movie =  movieService.getMovie(Long.parseLong(movieId)).orElse(new Movie("test", "testDirector"));
-        UrlResource video = new UrlResource("file:" + movie.getFilePath());
-        ResourceRegion resourceRegion;
+        try {
+            Movie movie =  movieService.getMovie(Long.parseLong(movieId)).orElseThrow(() -> new NoMovieFoundException(movieId));
+            UrlResource video = new UrlResource("file:" + movie.getFilePath());
+            ResourceRegion resourceRegion;
 
-        final long chunkSize = 1000000L;
-        long contentLength = video.contentLength();
+            final long chunkSize = 1000000L;
+            long contentLength = video.contentLength();
 
-        Optional<HttpRange> optional = headers.getRange().stream().findFirst();
-        HttpRange httpRange;
-        if (optional.isPresent()) {
-            httpRange = optional.get();
-            long start = httpRange.getRangeStart(contentLength);
-            long end = httpRange.getRangeEnd(contentLength);
-            long rangeLength = Long.min(chunkSize, end - start + 1);
-            resourceRegion = new ResourceRegion(video, start, rangeLength);
-        } else {
-            long rangeLength = Long.min(chunkSize, contentLength);
-            resourceRegion = new ResourceRegion(video, 0, rangeLength);
+            Optional<HttpRange> optional = headers.getRange().stream().findFirst();
+            HttpRange httpRange;
+            if (optional.isPresent()) {
+                httpRange = optional.get();
+                long start = httpRange.getRangeStart(contentLength);
+                long end = httpRange.getRangeEnd(contentLength);
+                long rangeLength = Long.min(chunkSize, end - start + 1);
+                resourceRegion = new ResourceRegion(video, start, rangeLength);
+            } else {
+                long rangeLength = Long.min(chunkSize, contentLength);
+                resourceRegion = new ResourceRegion(video, 0, rangeLength);
+            }
+
+            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+                .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
+                .body(resourceRegion);
         }
-
-        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
-            .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
-            .body(resourceRegion);
+        catch(NoMovieFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

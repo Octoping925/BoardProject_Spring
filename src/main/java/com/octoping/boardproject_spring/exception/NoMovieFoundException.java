@@ -5,11 +5,7 @@ public class NoMovieFoundException extends Exception {
 
     }
 
-    public NoMovieFoundException(String message) {
-        super(message);
-    }
-
-    public NoMovieFoundException(String message, long movieId) {
-        super(String.format("%s %ld", message, movieId));
+    public NoMovieFoundException(String movieId) {
+        super("No movie found with id: " + movieId);
     }
 }
