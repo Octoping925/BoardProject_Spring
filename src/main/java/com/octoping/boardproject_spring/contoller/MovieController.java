@@ -2,30 +2,25 @@ package com.octoping.boardproject_spring.contoller;
 
 import com.octoping.boardproject_spring.domain.Movie;
 import com.octoping.boardproject_spring.service.MovieService;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.core.io.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRange;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 @Controller
 public class MovieController {
@@ -66,46 +61,30 @@ public class MovieController {
         return mav;
     }
 
-    @GetMapping("/movie/test/{movieId}") // 스트리밍 테스트용
-    public ResponseEntity<StreamingResponseBody> movieTest(@PathVariable("movieId") String movieId, Model model) {
+    @GetMapping("/movie/download/{movieId}")
+    public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, @PathVariable String movieId) throws IOException {
         Movie movie =  movieService.getMovie(Long.parseLong(movieId)).orElse(new Movie("test", "testDirector"));
-        File file = new File(movie.getFilePath());
-        if(!file.isFile()) {
-            return ResponseEntity.notFound().build();
+        UrlResource video = new UrlResource("file:" + movie.getFilePath());
+        ResourceRegion resourceRegion;
+
+        final long chunkSize = 1000000L;
+        long contentLength = video.contentLength();
+
+        Optional<HttpRange> optional = headers.getRange().stream().findFirst();
+        HttpRange httpRange;
+        if (optional.isPresent()) {
+            httpRange = optional.get();
+            long start = httpRange.getRangeStart(contentLength);
+            long end = httpRange.getRangeEnd(contentLength);
+            long rangeLength = Long.min(chunkSize, end - start + 1);
+            resourceRegion = new ResourceRegion(video, start, rangeLength);
+        } else {
+            long rangeLength = Long.min(chunkSize, contentLength);
+            resourceRegion = new ResourceRegion(video, 0, rangeLength);
         }
 
-        StreamingResponseBody streamingResponseBody = outputStream -> FileCopyUtils.copy(new FileInputStream(file), outputStream);
-
-//        StreamingResponseBody streamingResponseBody = outputStream -> {
-//            try {
-//                final InputStream inputStream = new FileInputStream(file);
-//                byte[] bytes = new byte[1024];
-//                int length;
-//
-//                while((length = inputStream.read(bytes)) >= 0) {
-//                    outputStream.write(bytes, 0, length);
-//                }
-//
-//                inputStream.close();
-//                outputStream.close();
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//                System.out.println("Exception while reading and streaming Data");
-//                System.out.println(movie.getName());
-//            }
-//        };
-
-        final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "video/mp4");
-        responseHeaders.add("Content-Length", Long.toString(file.length()));
-
-        return ResponseEntity.ok().headers(responseHeaders).body(streamingResponseBody);
-    }
-
-    @GetMapping("/movie/getMovieData")
-    public String getMovieData(@RequestParam("movieId") String movieId) {
-
-        return "";
+        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+            .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
+            .body(resourceRegion);
     }
 }

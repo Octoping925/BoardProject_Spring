@@ -1,11 +1,38 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{https://cdn.plyr.io/3.7.2/plyr.css}" />
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/plyr/3.5.3/plyr.polyfilled.min.js}"></script>
+
 <body>
 <div th:text="${movie.name}"></div>
 <div th:text="${movie.directorName}"></div>
 
-<!-- <video controls="controls" th:src="${movie.filePath}" width="400" autoplay="autoplay"></video> -->
-<video controls="controls" th:src="@{/movie/test/} + ${movie.movieId}" width="400" autoplay="autoplay"></video>
+<video id="player" th:src="@{/movie/download/} + ${movie.movieId}" type="video/mp4"></video>
+
+<div class="mb-3" style="padding: 15px">
+  <input id="timeInput" placeholder="이동할 시간">
+  <button type="button" class="btn btn-primary" id="timeMoveBtn">이동</button>
+</div>
 
 </body>
+<script>
+  // 플레이어 만들기
+  const player = new Plyr('#player', {
+    controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+    invertTime: false,
+    keyboard: {
+      focused: false,
+      global: false
+    },
+  });
+
+  document.getElementById('timeMoveBtn').addEventListener("click", () => {
+    const input = document.getElementById('timeInput').value;
+    const minute = input / 100;
+    const second = input % 100;
+
+    player.currentTime = 60 * minute + second;
+  });
+</script>
 </html>
