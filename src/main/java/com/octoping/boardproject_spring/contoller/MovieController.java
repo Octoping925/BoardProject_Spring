@@ -30,13 +30,6 @@ public class MovieController {
     @Autowired
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
-
-        // 테스트용 데이터
-        movieService.addMovie("그 여름 가장 조용한 바다", "기타노 다케시");
-        movieService.addMovie("릴리 슈슈의 모든 것", "이와이 슌지");
-        movieService.addMovie("7인의 사무라이", "구로사와 아키라");
-        movieService.setMovieFilePath(1, "C:/ap.mp4");
-        movieService.setMovieFilePath(2, "C:/movie/Heat1995.mp4");
     }
 
     @GetMapping("/movie/movieList")

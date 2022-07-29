@@ -15,6 +15,7 @@ public class MovieService {
     @Autowired
     public MovieService(MemoryMovieRepository movieRepository) {
         this.movieRepository = movieRepository;
+        initTmpData();
     }
 
     public List<Movie> getMovieList() {
@@ -33,6 +34,16 @@ public class MovieService {
     public void setMovieFilePath(long movieId, String filePath) {
         Optional<Movie> movie = movieRepository.findBymovieId(movieId);
         movie.ifPresent(m -> m.setFilePath(filePath));
+    }
+
+    // 수동으로 영화 데이터 추가
+    public void initTmpData() {
+        addMovie("그 여름 가장 조용한 바다", "기타노 다케시");
+        addMovie("릴리 슈슈의 모든 것", "이와이 슌지");
+        addMovie("7인의 사무라이", "구로사와 아키라");
+        setMovieFilePath(1, "C:/ap.mp4");
+        setMovieFilePath(2, "C:/movie/Heat1995.mp4");
+        setMovieFilePath(3, "C:/ap2.mp4");
     }
 
 
