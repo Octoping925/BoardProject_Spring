@@ -16,7 +16,7 @@
       <tbody>
       <tr th:each="movie : ${movieList}">
         <td th:text="${movie.movieId}"></td>
-        <td th:text="${movie.name}"></td>
+        <td><a th:href="@{/movie/watch/} + ${movie.movieId}" th:text="${movie.name}"></a></td>
         <td th:text="${movie.directorName}"></td>
       </tr>
       </tbody>
@@ -24,4 +24,13 @@
   </div>
 </div> <!-- /container -->
 </body>
+<script>
+  window.onload = function () {
+
+  }
+
+  function movePage(movieId) {
+    location.href = "/movie/watch/" + movieId;
+  }
+</script>
 </html>
