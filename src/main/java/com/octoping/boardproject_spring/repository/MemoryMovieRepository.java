@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemoryMovieRepository implements MovieRepository{
-    private static Map<Long, Movie> store = new HashMap<>();
-    private static long sequence = 0L;
+    private Map<Long, Movie> store = new HashMap<>();
+    private long sequence = 0L;
 
     @Override
     public Movie save(Movie movie) {

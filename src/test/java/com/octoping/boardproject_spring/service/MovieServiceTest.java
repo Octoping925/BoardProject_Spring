@@ -2,7 +2,8 @@ package com.octoping.boardproject_spring.service;
 
 import com.octoping.boardproject_spring.domain.Movie;
 import com.octoping.boardproject_spring.repository.MemoryMovieRepository;
-import com.octoping.boardproject_spring.repository.MovieRepository;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +15,17 @@ public class MovieServiceTest {
     @AfterEach
     public void clearRepository() {
         movieService.movieRepository.clearStore();
+    }
+
+    @Test
+    public void getMovieTest() {
+        movieService.movieRepository.save(new Movie("화양연화", "왕가위"));
+
+        Optional<Movie> movieOptional = movieService.getMovie(1);
+        Assertions.assertTrue(movieOptional.filter(m -> m.getName().equals("화양연화")).isPresent());
+        
+        Optional<Movie> movieOptional2 = movieService.getMovie(2);
+        Assertions.assertFalse(movieOptional2.isPresent());
     }
 
     @Test
