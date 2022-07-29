@@ -14,6 +14,10 @@
             <input class="form-control" type="password" id="password" name="password" placeholder="비밀번호">
         </div>
         <div style="padding: 5px;">
+            <label for="passwordConfirm" class="visually-hidden">PasswordConfirm</label>
+            <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm" placeholder="비밀번호 확인">
+        </div>
+        <div style="padding: 5px;">
             <button class="btn btn-primary" type="submit">등록</button>
             <button class="btn btn-secondary" type="button" onclick="location.href='/'">돌아가기</button>
         </div>
@@ -24,12 +28,21 @@
     function isInputValid() {
         const id = document.getElementById("id");
         const pw = document.getElementById("password");
+        const pwCfm = document.getElementById("passwordConfirm");
 
-        if(id.value.length * pw.value.length === 0) {
-            alert("아이디와 비밀번호를 입력해주세요");
-            return false;
+        switch(true) {
+            case id.value.length === 0:
+                alert("아이디를 입력해주세요");
+                return false;
+            case pw.value.length === 0:
+                alert("비밀번호를 입력해주세요");
+                return false;
+            case pw !== pwCfm:
+                alert("비밀번호가 비밀번호 확인과 다릅니다");
+                return false;
+            default:
+                return true;
         }
-        return true;
     }
 </script>
 </html>

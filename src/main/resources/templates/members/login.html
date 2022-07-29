@@ -32,11 +32,16 @@
     const id = document.getElementById("id");
     const pw = document.getElementById("password");
 
-    if(id.value.length * pw.value.length === 0) {
-      alert("아이디와 비밀번호를 입력해주세요");
-      return false;
+    switch(true) {
+      case id.value.length === 0:
+        alert("아이디를 입력해주세요");
+        return false;
+      case pw.value.length === 0:
+        alert("비밀번호를 입력해주세요");
+        return false;
+      default:
+        return true;
     }
-    return true;
   }
 </script>
 </html>
