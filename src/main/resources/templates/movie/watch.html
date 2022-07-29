@@ -5,16 +5,25 @@
 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/plyr/3.5.3/plyr.polyfilled.min.js}"></script>
 
 <body>
-<div th:text="${movie.name}"></div>
-<div th:text="${movie.directorName}"></div>
+  <div class="container">
+    <div class="pt-3 pb-3">
+      <div>
+        <h3 th:text="${movie.name}"></h3>
+        <div th:text="${movie.directorName}"></div>
+      </div>
+      <div style="float: right;">
+        <button type="button" class="btn btn-primary" th:onclick="@{location.href='/movie/download/} + ${movie.movieId} + @{';}">다운로드</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='/movie/movieList';">돌아가기</button>
+      </div>
+    </div>
+    <br>
+    <video id="player" th:src="@{/movie/download/} + ${movie.movieId}" type="video/mp4"></video>
 
-<video id="player" th:src="@{/movie/download/} + ${movie.movieId}" type="video/mp4"></video>
-
-<div class="mb-3" style="padding: 15px">
-  <input id="timeInput" placeholder="이동할 시간">
-  <button type="button" class="btn btn-primary" id="timeMoveBtn">이동</button>
-</div>
-
+    <div class="input-group pt-3">
+      <input id="timeInput" class="form-control" placeholder="시간 입력">
+      <button type="button" class="btn btn-primary" id="timeMoveBtn">이동</button>
+    </div>
+  </div>
 </body>
 <script>
   // 플레이어 만들기
