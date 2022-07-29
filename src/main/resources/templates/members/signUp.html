@@ -22,6 +22,7 @@
             <button class="btn btn-secondary" type="button" onclick="location.href='/'">돌아가기</button>
         </div>
     </form>
+    <div th:text="${message}" id="message" style="color: red"></div>
 </div> <!-- /container -->
 </body>
 <script>
@@ -29,16 +30,17 @@
         const id = document.getElementById("id");
         const pw = document.getElementById("password");
         const pwCfm = document.getElementById("passwordConfirm");
+        const msg = document.getElementById("message");
 
         switch(true) {
             case id.value.length === 0:
-                alert("아이디를 입력해주세요");
+                msg.innerText = "아이디를 입력해주세요";
                 return false;
             case pw.value.length === 0:
-                alert("비밀번호를 입력해주세요");
+                msg.innerText = "비밀번호를 입력해주세요";
                 return false;
-            case pw !== pwCfm:
-                alert("비밀번호가 비밀번호 확인과 다릅니다");
+            case pw.value !== pwCfm.value:
+                msg.innerText = "비밀번호가 비밀번호 확인과 다릅니다";
                 return false;
             default:
                 return true;

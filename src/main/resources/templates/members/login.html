@@ -24,20 +24,21 @@
     </div>
   </form>
 
-  <div th:text="${message}" style="color: red"></div>
+  <div th:text="${message}" id="message" style="color: red"></div>
 </div> <!-- container End -->
 </body>
 <script>
   function isInputValid() {
     const id = document.getElementById("id");
     const pw = document.getElementById("password");
+    const msg = document.getElementById("message");
 
     switch(true) {
       case id.value.length === 0:
-        alert("아이디를 입력해주세요");
+        msg.innerText = "아이디를 입력해주세요";
         return false;
       case pw.value.length === 0:
-        alert("비밀번호를 입력해주세요");
+        msg.innerText = "비밀번호를 입력해주세요";
         return false;
       default:
         return true;
