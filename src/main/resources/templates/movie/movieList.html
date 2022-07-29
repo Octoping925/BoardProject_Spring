@@ -1,21 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<link th:href="@{/css/movieList.css}" rel="stylesheet" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
 
 <body>
 <div class="container">
+  <h1 style="padding: 15px;">Movie List</h1>
   <div>
-    <table>
+    <table class="table">
       <thead>
       <tr>
-        <th>#</th>
-        <th>영화</th>
-        <th>감독</th>
+        <th scope="col">#</th>
+        <th scope="col">영화</th>
+        <th scope="col">감독</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="movie : ${movieList}">
-        <td th:text="${movie.movieId}"></td>
+        <th scope="row" th:text="${movie.movieId}"></td>
         <td th:text="${movie.name}"></td>
         <td th:text="${movie.directorName}"></td>
       </tr>
