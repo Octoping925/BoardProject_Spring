@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
 <body>
 <div class="container">
     <form action="/members/signUp" method="post" onsubmit="return isInputValid();">
