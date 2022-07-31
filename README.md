@@ -1,14 +1,10 @@
 # StreamingForSakia.tai
 
-[//]: # (<p align="center">)
-
-[//]: # (  <br>)
-
-[//]: # (  <img src="./wordle.jpg" width="700">)
-
-[//]: # (  <br>)
-
-[//]: # (</p>)
+<p align="center">
+  <br>
+  <img src="./streamingforsakiatai.png" width="700">
+  <br>
+</p>
 
 
 ## 프로젝트 소개
